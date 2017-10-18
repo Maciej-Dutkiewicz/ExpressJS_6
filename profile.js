@@ -7,11 +7,7 @@ var forms = require('forms');
 
 var profileForm = forms.create({
     givenName: forms.fields.string({ required: true }),
-    surname: forms.fields.string({ required: true }),
-    streetAddress: forms.fields.string(),
-    city: forms.fields.string(),
-    state: forms.fields.string(),
-    zip: forms.fields.string()
+    surname: forms.fields.string({ required: true })    
 });
 
 function renderForm(req, res, locals) {
@@ -19,11 +15,7 @@ function renderForm(req, res, locals) {
         title: 'My Profile',
         csrfToken: req.csrfToken(),
         givenName: req.user.givenName,
-        surname: req.user.surname,
-        streetAddress: req.user.customData.streetAddress,
-        city: req.user.customData.city,
-        state: req.user.customData.state,
-        zip: req.user.customData.zip
+        surname: req.user.surname        
     }, locals || {}));
 }
 
@@ -39,12 +31,7 @@ module.exports = function profile() {
     profileForm.handle(req, {
         success: function(form) {
             req.user.givenName = form.data.givenName;
-            req.user.surname = form.data.surname;
-            req.user.customData.streetAddress = form.data.streetAddress;
-            req.user.customData.city = form.data.city;
-            req.user.customData.state = form.data.state;
-            req.user.customData.zip = form.data.zip;
-            req.user.customData.save();
+            req.user.surname = form.data.surname;            
             req.user.save(function(err) {
                 if (err) {
                     if (err.developerMessage){
