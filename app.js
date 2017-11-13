@@ -9,6 +9,7 @@ const dotenv = require('dotenv');
 const passport = require('passport');
 const Auth0Strategy = require('passport-auth0');
 const flash = require('connect-flash');
+const mongoose = require('mongoose');
 var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn();
 
 dotenv.load();
@@ -46,7 +47,7 @@ passport.deserializeUser(function(user, done) {
 
 const app = express();
 
-mongoose.connect('mongodb://localhost/usersDB)
+mongoose.connect('mongodb://localhost/usersDB');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

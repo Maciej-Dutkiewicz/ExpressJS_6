@@ -36,34 +36,22 @@ module.exports = function profile() {
                 req.user.surname = form.data.surname;
 
 
-                var address = new User();
-                address.givenName = req.user.givenName;
-                address.surname = req.user.surname;
-                address.save(function (err) {
+                var user = new User();
+                user.givenName = req.user.givenName;
+                user.surname = req.user.surname;
+                user.save(function (err) {
                     if (err) {
-                        console.log(err);
-                    }
-                    res.json('Address added to DB');
-                });
-
-
-                req.user.save(function (err) {
-                    if (err) {
-                        if (err.developerMessage) {
-                            console.error(err);
-                        }
                         renderForm(req, res, {
                             errors: [{
                                 error: err.userMessage ||
                                 err.message || String(err)
                             }]
                         });
-                    } else {
-                        renderForm(req, res, {
-                            saved: true
-                        });
                     }
-                });
+                    renderForm(req, res, {
+                        saved: true
+                    });
+                });               
             },
             empty: function () {
                 renderForm(req, res);
